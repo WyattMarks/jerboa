@@ -60,6 +60,9 @@ Jerboa is a native-android client for Lemmy, built using the native Android Tool
 - [F-Droid](https://f-droid.org/en/packages/com.jerboa/)
 - [Google Play](https://play.google.com/store/apps/details?id=com.jerboa)
 
+#### Latest Commit
+- [nightly.link](https://nightly.link/WyattMarks/jerboa/workflows/main/main/release-apk.zip)
+
 ## Support / Donate
 
 Jerboa is made by Lemmy's developers, and is free, open-source software, meaning no advertising, monetizing, or venture capital, ever. Your donations directly support full-time development of the project.
