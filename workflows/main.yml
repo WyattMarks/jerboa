@@ -1,0 +1,42 @@
+name: Auto Build
+on:
+  push:
+    branches: main
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'oracle'
+        cache: gradle
+
+    - name: Setup Keystore for Release build
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'my.jks'
+        fileDir: '.'
+        encodedString: ${{ secrets.KEYSTORE }}
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    
+    - name: Clean Gradle
+      run: ./gradlew clean
+
+    - name: Build with Gradle
+      run: ./gradlew assemble -PRELEASE_STORE_FILE=./../my.jks -PRELEASE_STORE_PASSWORD=${{ secrets.STORE_PASSWORD }} -PRELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }} -PRELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+
+    - name: post apk
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/release/app-release.apk
